@@ -8,15 +8,17 @@ from doc.pycurl.examples.quickstart.response_headers import headers
 
 from chapter2.豆瓣TOP250 import result
 
-domain = "https://dytt89.com/"
+domain = "https://dytt89.com"
 header = {
-    "user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0",
-    "cookie":"__51uvsct__KSHU1VNqce379XHB=1; __51vcke__KSHU1VNqce379XHB=c55bfe45-8f6d-5a1a-9731-773dd1d26048; __51vuft__KSHU1VNqce379XHB=1730985737856; Hm_lvt_93b4a7c2e07353c3853ac17a86d4c8a4=1730985738; HMACCOUNT=C6C60C414979E4A6; Hm_lvt_0113b461c3b631f7a568630be1134d3d=1730985738; Hm_lvt_8e745928b4c636da693d2c43470f5413=1730985738; __vtins__KSHU1VNqce379XHB=%7B%22sid%22%3A%20%22ddbcd609-917c-5bf0-8300-25e9b49f0845%22%2C%20%22vd%22%3A%205%2C%20%22stt%22%3A%201090129%2C%20%22dr%22%3A%20168563%2C%20%22expires%22%3A%201730988627984%2C%20%22ct%22%3A%201730986827984%7D; Hm_lpvt_8e745928b4c636da693d2c43470f5413=1730986828; Hm_lpvt_93b4a7c2e07353c3853ac17a86d4c8a4=1730986828; Hm_lpvt_0113b461c3b631f7a568630be1134d3d=1730986828"}
+    "user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+    "cookie":"__51uvsct__KSHU1VNqce379XHB=1; __51vcke__KSHU1VNqce379XHB=cec240ca-02f9-5055-8999-17cc530e5638; __51vuft__KSHU1VNqce379XHB=1731047094563; Hm_lvt_0113b461c3b631f7a568630be1134d3d=1731047095; HMACCOUNT=29CFA9AE44F4D279; Hm_lvt_93b4a7c2e07353c3853ac17a86d4c8a4=1731047095; Hm_lvt_8e745928b4c636da693d2c43470f5413=1731047095; __vtins__KSHU1VNqce379XHB=%7B%22sid%22%3A%20%227220bf17-7def-5fb8-a4d5-5d640f788c00%22%2C%20%22vd%22%3A%204%2C%20%22stt%22%3A%201313501%2C%20%22dr%22%3A%2025364%2C%20%22expires%22%3A%201731050208062%2C%20%22ct%22%3A%201731048408062%7D; Hm_lpvt_8e745928b4c636da693d2c43470f5413=1731048409; Hm_lpvt_93b4a7c2e07353c3853ac17a86d4c8a4=1731048409; Hm_lpvt_0113b461c3b631f7a568630be1134d3d=1731048409",
+    }
 # verify=False 去掉安全验证
 resp = requests.get(domain, headers=header,verify=False)
 # 该网站用的gb2312
 resp.encoding = "gb2312"
 # print(resp.text)
+
 
 #主页面解析拿到ul里面的li
 obj = re.compile(r"2024必看热片.*?<ul>(?P<ul>.*?)</ul>",re.S)
@@ -24,7 +26,13 @@ obj = re.compile(r"2024必看热片.*?<ul>(?P<ul>.*?)</ul>",re.S)
 #解析结果并获取子页面链接
 ul_obj = re.compile(r"<li>.*?<a href='(?P<item_url>.*?)'",re.S)
 
+# 子页面的下载地址
+movie_obj = re.compile(r'◎片　　名　(?P<movie>.*?)<br />.*?'
+                       r'<td style="WORD-WRAP: break-word" bgcolor="#fdfddf"><a href="(?P<download_url>.*?)">',re.S)
+
+
 result = obj.finditer(resp.text)
+child_url_li = []
 
 for it in result:
     # print(it.group("ul"))
@@ -32,4 +40,20 @@ for it in result:
     find_url = ul_obj.finditer(it.group("ul"))
     # 提取子页面的链接
     for i in find_url:
-        print(i.group("item_url"))
+        # print(i.group("item_url"))
+        # 拼接子页面的链接
+        child_url = domain+i.group("item_url")
+        child_url_li.append(child_url)
+
+resp.close()
+
+# 提取子页面
+for url in child_url_li:
+    print(url)
+    child_resp = requests.get(url,headers=header)
+    child_resp.encoding = "gb2312"
+    # # 提取下载地址
+    # print(child_resp.text)
+    movie = movie_obj.search(child_resp.text)
+    print(movie.group("movie"))
+    print(movie.group("download_url"))
