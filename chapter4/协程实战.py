@@ -1,17 +1,13 @@
 # 所有的章节内容(名称和ID)
 #https://dushu.baidu.com/api/pc/getDetail?data={"book_id::"4306063500"}
-import aiofiles
 # 异步的操作
 # 章节里的所有内容
 #https://dushu.baidu.com/api/pc/getChapterContent?data={"book_id":"4306063500","cid":"4306063500|1569782244","need_bookinfo":1}
-
+import aiofiles
 import requests
 import aiohttp
 import asyncio
 import json
-from scipy.fftpack import tilbert
-
-
 #1. 普通请求访问所有章节的cid和名称
 #2. 异步操作：访问下一个URL，下载所有的章节内容
 
@@ -36,14 +32,19 @@ async def aiodownload(cid,book_id,title):
         "cid": f'{book_id}|{cid}',
         "need_bookinfo": 1
     }
-
+    # 将字典转换为JSON字符串
     data = json.dumps(data)
+
+    # 拼接URL
     url = f"https://dushu.baidu.com/api/pc/getChapterContent?data={data}"
 
+    # 使用aiohttp库发送异步请求
     async  with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
+            # 解析JSON
             dic = await resp.json()
             content = dic['data']['novel']['content']
+            # 保存到文件
             async with aiofiles.open('novel/'+title,mode="w",encoding='utf-8') as f:
                 await  f.write(content)
             print(title,"下载完成")
