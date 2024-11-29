@@ -1,4 +1,4 @@
-# Scrapy settings for scrapyspidermiddlewaredemo project
+# Scrapy settings for scrapyitempiplinedemo project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,29 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "scrapyspidermiddlewaredemo"
+BOT_NAME = "scrapyitempiplinedemo"
 
-SPIDER_MODULES = ["scrapyspidermiddlewaredemo.spiders"]
-NEWSPIDER_MODULE = "scrapyspidermiddlewaredemo.spiders"
+SPIDER_MODULES = ["scrapyitempiplinedemo.spiders"]
+NEWSPIDER_MODULE = "scrapyitempiplinedemo.spiders"
+
+MONGO_URL = 'mongodb://localhost:27017/'
+MONGO_DB = 'movies'
+MONGO_COLLECTION = 'movies'
+
+ES_URL = 'http://localhost:9200'
+ES_INDEX = 'movies'
+
+IMAGES_STORE = './images'
+
+ITEM_PIPELINES = {
+   "scrapyitempiplinedemo.pipelines.ImagePipeline": 300,
+   "scrapyitempiplinedemo.pipelines.MongoDBPipeline": 301,
+   "scrapyitempiplinedemo.pipelines.ElasticSearchPipeline": 302,
+}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "scrapyspidermiddlewaredemo (+http://www.yourdomain.com)"
+#USER_AGENT = "scrapyitempiplinedemo (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -44,14 +59,14 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-SPIDER_MIDDLEWARES = {
-   "scrapyspidermiddlewaredemo.middlewares.CustomUserAgentMiddleware": 543,
-}
+#SPIDER_MIDDLEWARES = {
+#    "scrapyitempiplinedemo.middlewares.ScrapyitempiplinedemoSpiderMiddleware": 543,
+#}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "scrapyspidermiddlewaredemo.middlewares.ScrapyspidermiddlewaredemoDownloaderMiddleware": 543,
+#    "scrapyitempiplinedemo.middlewares.ScrapyitempiplinedemoDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +78,7 @@ SPIDER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "scrapyspidermiddlewaredemo.pipelines.ScrapyspidermiddlewaredemoPipeline": 300,
+#    "scrapyitempiplinedemo.pipelines.ScrapyitempiplinedemoPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
