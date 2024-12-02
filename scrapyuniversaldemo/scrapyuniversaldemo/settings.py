@@ -1,4 +1,4 @@
-# Scrapy settings for scrapyseleniumdemo project
+# Scrapy settings for scrapyuniversaldemo project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,22 +7,17 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "scrapyseleniumdemo"
+BOT_NAME = "scrapyuniversaldemo"
 
-SPIDER_MODULES = ["scrapyseleniumdemo.spiders"]
-NEWSPIDER_MODULE = "scrapyseleniumdemo.spiders"
-ROBOTSTXT_OBEY = False
+SPIDER_MODULES = ["scrapyuniversaldemo.spiders"]
+NEWSPIDER_MODULE = "scrapyuniversaldemo.spiders"
 
-DOWNLOADER_MIDDLEWARES = {
-    "gerapy_selenium.downloadermiddlewares.SeleniumMiddleware": 543,
-}
-CONCURRENT_REQUESTS = 6
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "scrapyseleniumdemo (+http://www.yourdomain.com)"
+#USER_AGENT = "scrapyuniversaldemo (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -50,13 +45,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "scrapyseleniumdemo.middlewares.ScrapyseleniumdemoSpiderMiddleware": 543,
+#    "scrapyuniversaldemo.middlewares.ScrapyuniversaldemoSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "scrapyseleniumdemo.middlewares.ScrapyseleniumdemoDownloaderMiddleware": 543,
+#    "scrapyuniversaldemo.middlewares.ScrapyuniversaldemoDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -68,7 +63,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "scrapyseleniumdemo.pipelines.ScrapyseleniumdemoPipeline": 300,
+#    "scrapyuniversaldemo.pipelines.ScrapyuniversaldemoPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
